@@ -3,7 +3,7 @@ import pytest
 import numpy as np
 from scipy.stats import norm
 
-from src.models import BlackScholesModel
+from models import BlackScholesModel
 
 
 class TestBlackScholesModel:
