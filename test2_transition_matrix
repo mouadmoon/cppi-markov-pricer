@@ -1,0 +1,29 @@
+from grid import Grid
+from models import BlackScholesModel
+from transition_matrix import TransitionMatrix
+import numpy as np
+
+# Paramètres du papier 2009 §6.1
+grid = Grid(N=500, vol=0.50, T=10, epsilon=1e-10, m=4)
+model = BlackScholesModel(volatility=0.50)
+tm = TransitionMatrix(grid=grid, model=model, dt=1/52)
+
+M = tm.matrix
+g = grid.grid_values
+
+# Test 1: somme des lignes
+print("Max écart à 1:", np.max(np.abs(M.sum(axis=1) - 1)))
+# Affiche la somme de chaque ligne pour vérification
+
+# Test 2: positivité
+print("Min de M:", M.min())
+
+# Test 3: martingale
+print("Max erreur martingale:", np.max(np.abs(M @ g - g)))
+
+# Test 4: lignes w=0
+for j in range(len(g)):
+    if g[j] <= 1:
+        off_diag = M[j, :].sum() - M[j, :].max()
+        if off_diag > 1e-10:
+            print(f"ALERTE: ligne {j} (g={g[j]:.3f}) non diagonale: {off_diag}")

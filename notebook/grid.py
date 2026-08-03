@@ -2,9 +2,8 @@ import numpy as np
 import pandas as pd
 from scipy import stats as scipy_stats
 class Grid:
-    def __init__(self, N, vol, T, epsilon, m,tanh_strength=17,r = 0.05):
+    def __init__(self, N, vol, T, epsilon, m,tanh_strength=17):
         self.N = N
-        self.r = r
         self.vol = vol
         self.T = T
         self.epsilon = epsilon
@@ -46,11 +45,6 @@ class Grid:
             if grid_values[i] - grid_values[i-1] < 1e-12:
                 mask[i] = False
         grid_values = grid_values[mask]
-        self.N = len(grid_values)
-        X0 = np.exp(self.r * self.T)
-        j_closest = np.argmin(np.abs(grid_values - X0))
-        grid_values[j_closest] = X0
-        grid_values = np.sort(grid_values)
         self.N = len(grid_values)
         return grid_values
     def separation_grid(self):

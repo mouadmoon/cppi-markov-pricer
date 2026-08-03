@@ -26,8 +26,8 @@ class TestTransitionMatrix:
         plt.close(fig)
 
     def test_sum_of_rows(self):
-        grid = Grid(N=50, vol=0.2, T=10, epsilon=1e-10, m=4)
-        model = BlackScholesModel(volatility=0.2)
+        grid = Grid(N=500, vol=0.2, T=10, epsilon=1e-10, m=4)
+        model = BlackScholesModel(volatility=0.2,sigma=0.5)
         transition_matrix_instance = TransitionMatrix(grid, model)
         row_sums = transition_matrix_instance.Qzero.sum(axis=1)
         print("Row sums of the transition matrix:", row_sums)
